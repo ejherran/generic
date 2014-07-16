@@ -1,4 +1,4 @@
-generic
+GENERIC
 =======
 
 Código genérico: Plantillas, ejemplos, etc.
