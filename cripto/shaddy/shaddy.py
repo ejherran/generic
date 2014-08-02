@@ -41,25 +41,28 @@ def rPrim(space):
 def genKeys(space, parts):
     parts = int(parts)
     p = rPrim(space)
-    ph = toHex(p, 0)
-    t = len(ph)
-    
-    g = rnd.randint(2, p-1)
-    gh = toHex(g, t)
-    sK = [0]*parts
-    sQ = [0]*parts
-    
-    for s in range(parts):
-        a = rnd.randint(2, p-1)
-        A = (g**a) % p
-        sK[s] = toHex(a, t)
-        sQ[s] = toHex(A, t)
-    
-    sK = ''.join(sK)+':'+ph
-    sQ = gh+''.join(sQ)+':'+ph
-    
-    print "\nCLAVE PRIVADA:\t"+b64.b64encode(sK)
-    print "CLAVE PUBLICA:\t"+b64.b64encode(sQ)+"\n"
+    if(p < 256):
+        print "ERROR:\t El espacio minimo es de 256!."
+    else:
+        ph = toHex(p, 0)
+        t = len(ph)
+        
+        g = rnd.randint(2, p-1)
+        gh = toHex(g, t)
+        sK = [0]*parts
+        sQ = [0]*parts
+        
+        for s in range(parts):
+            a = rnd.randint(2, p-1)
+            A = (g**a) % p
+            sK[s] = toHex(a, t)
+            sQ[s] = toHex(A, t)
+        
+        sK = ''.join(sK)+':'+ph
+        sQ = gh+''.join(sQ)+':'+ph
+        
+        print "\nCLAVE PRIVADA:\t"+b64.b64encode(sK)
+        print "CLAVE PUBLICA:\t"+b64.b64encode(sQ)+"\n"
 
 def getKeyParts(sQ):
     sQ = b64.b64decode(sQ)
@@ -72,8 +75,8 @@ def getKeyParts(sQ):
     sQ = sQ[0]
     while (sQ != ''):
         Q.append(int(sQ[:t], 16))
-        sQ = sQ[3:]
-        
+        sQ = sQ[t:]
+    
     return Q
 
 def egCif(t, p, A, b, m):
