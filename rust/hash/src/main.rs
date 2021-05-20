@@ -1,4 +1,4 @@
-use crypto_hash::{Algorithm, hex_digest};
+use crypto_hash::{hex_digest, Algorithm};
 
 fn main() {
     let digest = hex_digest(Algorithm::SHA512, b"Hola SHA512");
